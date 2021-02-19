@@ -3,10 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <title>Vue Reactive</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app">
+    <input type="text" v-model="text">
+    {{ text }}
+  </div>
   <script src="reactive.js"></script>
 </body>
 </html>
