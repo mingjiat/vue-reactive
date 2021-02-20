@@ -15,6 +15,6 @@ module.exports = {
   },
   rules: {
     'linebreak-style': 0,
-    'arrow-parens': 'as-needed',
+    'arrow-parens': [2, 'as-needed'],
   },
 };
