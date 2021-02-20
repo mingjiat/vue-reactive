@@ -1,4 +1,24 @@
 /* eslint-disable no-param-reassign */
+function defineReactive(obj, key, val) {
+  Object.defineProperty(obj, key, {
+    get() {
+      return val;
+    },
+    set(newVal) {
+      if (val === newVal) {
+        return;
+      }
+      console.log('属性变化', key);
+    },
+  });
+}
+
+function observe(obj, vm) {
+  Object.keys(obj).forEach(key => {
+    defineReactive(vm, key, obj[key]);
+  });
+}
+
 function compile(node, vm) {
   // 元素节点
   if (node.nodeType === 1) {
@@ -6,6 +26,9 @@ function compile(node, vm) {
     for (let i = 0; i < attrs.length; i += 1) {
       if (attrs[i].nodeName === 'v-model') {
         const name = attrs[i].nodeValue;
+        node.addEventListener('input', e => {
+          vm[name] = e.target.value;
+        });
         node.value = vm.data[name];
         node.removeAttribute('v-model');
       }
@@ -36,6 +59,7 @@ function nodeToFragment(node, vm) {
 class Vue {
   constructor(options) {
     this.data = options.data;
+    observe(this.data, this);
     const id = options.el;
     const dom = nodeToFragment(document.getElementById(id), this);
     document.getElementById(id).appendChild(dom);
